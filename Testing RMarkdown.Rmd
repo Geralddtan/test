@@ -1,0 +1,64 @@
+---
+title: "Testing"
+author: "Gerald Tan"
+date: "15/01/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+library(readxl)
+library(psych)
+library(car)
+library(dplyr)
+library(ggplot2)
+library(forecast)
+library(tseries)
+library(bucky) #install.packages('bucky')
+library(miceadds) #install.packages('miceadds')
+library(multiwayvcov) #install.packages('multiwayvcov')
+library(stargazer) #install.packages('stargazer')
+#library(corrr)
+#library(tidyverse)
+
+file = read.csv('energydata_complete.csv')
+# 26 IVs here at first.
+colname <- c("Date","Appliances", "Lights", "Temp_Kitchen", "Humd_Kitchen", "Temp_Living_Room", 
+             "Humd_Living_Room", "Temp_Laundry", "Humd_Laundry", "Temp_Office", "Humd_Office", 
+             "Temp_Bath", "Humd_Bath", "Temp_Outside_North", "Humd_Outside_North", "Temp_Ironing", 
+             "Humd_Ironing", "Temp_Teen_2", "Humd_Teen_2", "Temp_Parents", "Humd_Parents", 
+             "Temp_Outside_Chievres", "Pressure_chievres", "Humd_Outside_Chievres", "Wind_Speed", 
+             "Visibility", "Tdewpoint", "rv1","rv2")
+
+colnames(file) <- colname
+file$Lights = NULL
+file$rv1 = NULL
+file$rv2 = NULL
+file$Temp_Outside_North = NULL #we only consider Temp_Outside_Chievres to measures temp outside
+file$Humd_Outside_North = NULL #we only consider Humd_Outside_Chievres to measure humd outside
+file$Temp_Bath = NULL #temperature of bathroom does not make conceptual sense to be used to analyse power usage of appliances
+file$Humd_Bath = NULL #humidity of bathroom does not make conceptual sense to be used to analyse power usage of appliances
+# 20 IVs here.
+
+head(file)
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
